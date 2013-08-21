@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin
+   id="CuckooPlugin"
+   name="Cuckoo plugin for Eclipse"
+   version="0.0.3.qualifier"
+   provider-name="VU University Amsterdam"
+   class="interdroid.cuckoo.eclipse.plugin.CuckooPlugin">
+    <requires>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ant.core"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="com.android.ide.eclipse.adt"/>
+      <import plugin="org.eclipse.core.runtime"/>
+   </requires>
+   <extension
+         id="CuckooBuilder"
+         name="Cuckoo Project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+	     hasNature="true">
+         <run
+               class="interdroid.cuckoo.eclipse.plugin.CuckooBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+       id="CuckooNature"
+       name="Cuckoo Project Nature"
+       point="org.eclipse.core.resources.natures">
+       <runtime>
+	   <run class="interdroid.cuckoo.eclipse.plugin.CuckooNature"/>
+       </runtime>
+       <builder id="CuckooPlugin.CuckooBuilder"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.ide.projectNatureImages">
+      <image
+            icon="icons/cuckoo_project_new.png"
+            id="CuckooPlugin.image1"
+            natureId="CuckooPlugin.CuckooNature">
+      </image>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="interdroid.cuckoo.addaction"
+            objectClass="org.eclipse.jdt.core.IJavaProject">
+         <visibility>
+            <not>
+               <objectState value="CuckooPlugin.CuckooNature" name="nature"/>
+            </not>
+         </visibility>
+         <action
+               definitionId="CuckooPlugin.action1"
+               enablesFor="1"
+               label="Make Offloadable with Cuckoo"
+               icon="icons/cuckoo_project_add.png"
+               class="interdroid.cuckoo.eclipse.plugin.AddCuckooNature"
+               menubarPath="com.android.ide.eclipse.adt.AndroidTools/group1"
+               tooltip="Converts an Android project into a Cuckoo project"
+               id="interdroid.cuckoo.action1"/>
+      </objectContribution>
+      <objectContribution
+            objectClass="org.eclipse.jdt.core.IJavaProject"
+            id="interdroid.cuckoo.removeaction">
+         <visibility>
+            <objectState value="CuckooPlugin.CuckooNature" name="nature"/>
+         </visibility>
+         <action
+               enablesFor="1"
+               label="Undo Cuckoo Offloading"
+               icon="icons/cuckoo_project_remove.png"
+               class="interdroid.cuckoo.eclipse.plugin.RemoveCuckooNature"
+               menubarPath="com.android.ide.eclipse.adt.AndroidTools/group1"
+               tooltip="Converts a Cuckoo project back into an Android project"
+               id="interdroid.cuckoo.action2"/>
+      </objectContribution>
+   </extension>
+   <extension point="org.eclipse.ui.preferencePages">
+        <page
+              class="interdroid.cuckoo.eclipse.plugin.preferences.CuckooPreferencePage"
+              id="interdroid.cuckoo.eclipse.plugin.preferences.CuckooPreferencePage"
+              name="Cuckoo Preferences">
+        </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="interdroid.cuckoo.eclipse.plugin.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension point="org.eclipse.jdt.core.classpathContainerInitializer">
+       <classpathContainerInitializer
+        class="interdroid.cuckoo.eclipse.plugin.ClasspathContainerInitializer"
+        id="CuckooPlugin.ClasspathContainer">
+       </classpathContainerInitializer>
+   </extension>
+   	<extension point="org.eclipse.ui.bindings">
+   
+<key sequence="Ctrl+Alt+7"
+			commandId="CuckooPlugin.action1"
+			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+			contextId="org.eclipse.ui.contexts.window"/>   
+   </extension>
+   
+	       
+</plugin>
