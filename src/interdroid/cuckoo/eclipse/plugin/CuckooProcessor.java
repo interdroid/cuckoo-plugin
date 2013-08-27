@@ -273,7 +273,7 @@ public class CuckooProcessor extends AidlProcessor {
 			out.write("<property name=\"lib\" location=\".." + File.separator//$NON-NLS-1$
 					+ "assets\"/>\n");//$NON-NLS-1$
 			File[] dirs = new File(project.getLocation().toOSString()
-					+ File.separator + "modified").listFiles(new FileFilter() {//$NON-NLS-1$
+					+ File.separator + "remote").listFiles(new FileFilter() {//$NON-NLS-1$
 
 						@Override
 						public boolean accept(File file) {
